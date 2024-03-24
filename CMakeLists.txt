@@ -4,8 +4,6 @@ project(untitled)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(untitled main.cpp
-        City.h
-        crossroads.h
-        Bus.h
-        Road.h
-        Road.h)
+        Include/Bus.h
+        Include/City.h
+        Include/Road.h)
