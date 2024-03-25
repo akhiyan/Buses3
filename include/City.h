@@ -6,6 +6,8 @@
 #include <vector>
 #include "Road.h"
 
+#define INFINITY 1000000
+
 class City{
 private:
     std::vector<char> crossroads;
@@ -21,7 +23,7 @@ public:
 
         for(int i = 0; i < N; ++i)
         {
-
+            adj_matrix[i].resize(N);
         }
 
         for(int i = 0; i < _city.size(); ++i){
@@ -34,8 +36,16 @@ public:
     }
 
     void Print_Matrix(){
-        for(int i = 0; i < adj_matrix.size(); ++i)
-        {
+        int i;
+
+        std::cout << "  ";
+        for(i = 0; i < adj_matrix.size(); ++i) {
+            std::cout << (char) ('A' + i) << " ";
+        }
+        std::cout << std::endl;
+
+        for(i = 0; i < adj_matrix.size(); ++i){
+            std::cout << (char)('A' + i) << " ";
             for(int j = 0; j < adj_matrix[i].size(); ++j){
                 std::cout << adj_matrix[i][j] << " ";
             }
