@@ -14,7 +14,7 @@ private:
 
 public:
     Crossroad(const char &val) : value(val) {}
-
+    Crossroad() {}
     //Crossroad(const char &other) : value(other.value) {}
 
     char getValue() const {

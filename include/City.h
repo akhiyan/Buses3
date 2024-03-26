@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <unordered_map>
 #include <unordered_set>
 #include "Road.h"
 #include "Bus.h"
@@ -14,10 +15,10 @@
 
 class City{
 private:
-    std::vector<char> crossroads;
+    std::unordered_map<char, Crossroad> allNodes;
     std::vector<std::vector<int>> adj_matrix;
     std::vector<std::vector<int>> adj_matrix_old;
-    std::vector<std::queue<char>> shortest_paths;
+    std::vector<Bus> buses;
 
     std::vector<std::vector<int>> floydWarshall(std::vector<std::vector<int>>& adj) {
         for (int k = 0; k < adj.size(); k++) {
@@ -26,6 +27,7 @@ private:
                     if (adj[i][k] + adj[k][j] < adj[i][j] &&
                         (adj[i][k] != INFINITY) && (adj[k][j] != INFINITY)) {
                         adj[i][j] = adj[i][k] + adj[k][j];
+
                     }
                 }
             }
@@ -36,8 +38,9 @@ private:
 public:
 
     City(int N, std::vector<char> roads, std::vector<std::vector<std::string>> _city) : adj_matrix(N) {
-        for(int i = 0; i < roads.size(); ++i){
-            crossroads.push_back(roads[i]);
+        for(int i = 0; i < roads.size(); ++i)
+        {
+            allNodes[roads[i]] = Crossroad(roads[i]);
         }
 
         for(int i = 0; i < N; ++i)
@@ -58,9 +61,41 @@ public:
         floydWarshall(adj_matrix);
     }
 
+    Crossroad getCrossroad(char& name)
+    {
+        return allNodes[name];
+    }
+
     void Add_road(char root, char destination, int distance){
         adj_matrix[root  - 'A'][destination - 'A'] = distance;
         adj_matrix[destination - 'A'][root - 'A'] = distance;
+    }
+
+    void add_bus(std::vector<Crossroad> stops)
+    {
+        auto b = Bus(stops);
+       buses.push_back(b);
+       find_closest_dest(allNodes['A'], b);
+
+    }
+
+
+    void find_closest_dest(Crossroad& start, Bus b)
+    {
+        int min = INT_MAX;
+        Crossroad closest_dest;
+        int element;
+        for(int i = 0; i < adj_matrix[start.getValue() - 'A'].size(); ++i){
+            element = adj_matrix[start.getValue() - 'A'][i];
+            if(element != 0 && b.path_contains('A' + i) &&element < min)
+            {
+                closest_dest = allNodes['A' + i];
+                min = element;
+            }
+
+        }
+
+        std::cout << "Closest stop is " << closest_dest.getValue() << " and the distance from " << start.getValue() << " is " << min;
     }
 
     void Print_Matrix(){
@@ -85,57 +120,57 @@ public:
         }
     }
 
-    void initDijkstra(Crossroad *sourceNode) {
-        for (auto node: allNodes) {
-            node.second->setDistance(INT_MAX);
-            node.second->setParent(nullptr);
-        }
-        sourceNode->setDistance(0);
-    }
-
-    void dijkstra(Crossroad *startNode) {
-        initDijkstra(startNode);
-        std::unordered_set<Crossroad*> q;
-        for (auto node: allNodes) {
-            q.insert(node.second);
-        }
-
-        while (!q.empty()) {
-            Crossroad* minNode = nullptr;
-            int minDistance = INT_MAX;
-            for (auto node: q) {
-                if (minDistance > node->getDistance()) {
-                    minDistance = node->getDistance();
-                    minNode = node;
-                }
-            }
-            if (minNode == nullptr) {
-                return;
-            }
-            q.erase(minNode);
-
-            for (auto edge: out_edges[minNode]) {
-                relax(edge);
-            }
-        }
-    }
-
-    void dijkstra(const char &startNodeValue) {
-        auto sourceNode = getNode(startNodeValue);
-        if (sourceNode != nullptr) {
-            dijkstra(sourceNode);
-        }
-    }
-
-    void relax(Road &edge) {
-        auto source = edge.getSource();
-        auto dest = edge.getDestination();
-
-        if (source->getDistance() + edge.getLabel() < dest->getDistance()) {
-            dest->setDistance(source->getDistance() + edge.getLabel());
-            dest->setParent(source);
-        }
-    }
+//    void initDijkstra(Crossroad *sourceNode) {
+//        for (auto node: allNodes) {
+//            node.second->setDistance(INT_MAX);
+//            node.second->setParent(nullptr);
+//        }
+//        sourceNode->setDistance(0);
+//    }
+//
+//    void dijkstra(Crossroad *startNode) {
+//        initDijkstra(startNode);
+//        std::unordered_set<Crossroad*> q;
+//        for (auto node: allNodes) {
+//            q.insert(node.second);
+//        }
+//
+//        while (!q.empty()) {
+//            Crossroad* minNode = nullptr;
+//            int minDistance = INT_MAX;
+//            for (auto node: q) {
+//                if (minDistance > node->getDistance()) {
+//                    minDistance = node->getDistance();
+//                    minNode = node;
+//                }
+//            }
+//            if (minNode == nullptr) {
+//                return;
+//            }
+//            q.erase(minNode);
+//
+//            for (auto edge: out_edges[minNode]) {
+//                relax(edge);
+//            }
+//        }
+//    }
+//
+//    void dijkstra(const char &startNodeValue) {
+//        auto sourceNode = getNode(startNodeValue);
+//        if (sourceNode != nullptr) {
+//            dijkstra(sourceNode);
+//        }
+//    }
+//
+//    void relax(Road &edge) {
+//        auto source = edge.getSource();
+//        auto dest = edge.getDestination();
+//
+//        if (source->getDistance() + edge.getLabel() < dest->getDistance()) {
+//            dest->setDistance(source->getDistance() + edge.getLabel());
+//            dest->setParent(source);
+//        }
+//    }
 };
 
 #endif //UNTITLED_CITY_H
