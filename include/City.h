@@ -7,6 +7,7 @@
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include "Road.h"
 #include "Bus.h"
 #include "Crossroad.h"
@@ -18,6 +19,7 @@ private:
     std::unordered_map<char, Crossroad> allNodes;
     std::vector<std::vector<int>> adj_matrix;
     std::vector<std::vector<int>> adj_matrix_old;
+    std::vector<Road> roads;
     std::vector<Bus> buses;
 
     std::vector<std::vector<int>> floydWarshall(std::vector<std::vector<int>>& adj) {
@@ -61,14 +63,32 @@ public:
         floydWarshall(adj_matrix);
     }
 
-    Crossroad getCrossroad(char& name)
-    {
+    void Construct_crossroad(std::vector<std::pair<char,char>> streets){
+        for(int i = 0; i < adj_matrix.size() - 1; ++i)
+        {
+            adj_matrix[i].push_back(INFINITY);
+        }
+        adj_matrix[adj_matrix.size() - 1].push_back(0);
+        allNodes[adj_matrix.size() - 1 + 'i'];
+        std::cout << "Added crossroad " << adj_matrix.size() - 1 + 'i' << std::endl;
+
+        for(int i = 0; i < streets.size(); ++i){
+            Add_road(streets[i].first, streets[i].second, -1);
+        }
+
+    }
+
+    Crossroad getCrossroad(char& name){
         return allNodes[name];
     }
 
     void Add_road(char root, char destination, int distance){
         adj_matrix[root  - 'A'][destination - 'A'] = distance;
         adj_matrix[destination - 'A'][root - 'A'] = distance;
+
+        auto dest_crossroad = getCrossroad(root);
+        auto root_crossroad = getCrossroad(destination);
+        roads.push_back(Road(distance, &root_crossroad, &dest_crossroad));
     }
 
     void add_bus(std::vector<Crossroad> stops)
@@ -79,6 +99,12 @@ public:
 
     }
 
+    void common_streets(int i, int j)
+    {
+        Bus ith_bus = buses[i];
+        Bus jth_bus = buses[j];
+        //std::cout << buses[i].get
+    }
 
     void find_closest_dest(Crossroad& start, Bus b)
     {
