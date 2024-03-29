@@ -37,10 +37,10 @@ private:
 
 public:
 
-    City(int N, std::vector<char> roads, std::vector<std::vector<std::string>> _city) : adj_matrix(N) {
-        for(int i = 0; i < roads.size(); ++i)
+    City(int N, std::vector<char> crossroads, std::vector<std::vector<std::string>> _city) : adj_matrix(N) {
+        for(int i = 0; i < crossroads.size(); ++i)
         {
-            allNodes[roads[i]] = Crossroad(roads[i]);
+            allNodes[crossroads[i]] = Crossroad(crossroads[i]);
         }
 
         for(int i = 0; i < N; ++i)
@@ -75,7 +75,7 @@ public:
     {
         auto b = Bus(stops);
        buses.push_back(b);
-       find_closest_dest(allNodes['A'], b);
+       find_closest_dest(allNodes[stops[0].getValue()], b);
 
     }
 
@@ -85,9 +85,9 @@ public:
         int min = INT_MAX;
         Crossroad closest_dest;
         int element;
-        for(int i = 0; i < adj_matrix[start.getValue() - 'A'].size(); ++i){
+        for(int i = 0; i < adj_matrix[start.getValue() - 'A'].size() + 1; ++i){
             element = adj_matrix[start.getValue() - 'A'][i];
-            if(element != 0 && b.path_contains('A' + i) &&element < min)
+            if(element != 0 && b.path_contains('A' + i) && element < min)
             {
                 closest_dest = allNodes['A' + i];
                 min = element;
@@ -96,6 +96,7 @@ public:
         }
 
         std::cout << "Closest stop is " << closest_dest.getValue() << " and the distance from " << start.getValue() << " is " << min;
+        std::cout << std::endl;
     }
 
     void Print_Matrix(){
