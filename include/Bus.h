@@ -13,6 +13,7 @@ class Bus
 {
 private:
     std::vector<Crossroad> path;
+    std::vector<Crossroad> stops;
 //    static int number;
 
 public:
@@ -20,14 +21,14 @@ public:
 //        number = -1;
 //        number++;
         for(int i = 0; i < _path.size(); ++i){
-            path.push_back(_path[i]);
+            stops.push_back(_path[i]);
         }
     }
 
     bool path_contains(char element){
-        for(int i = 0; i < path.size(); ++i)
+        for(int i = 0; i < stops.size(); ++i)
         {
-            if(path[i].getValue() == element)
+            if(stops[i].getValue() == element)
             {
                 return true;
             }
@@ -36,8 +37,16 @@ public:
         return false;
     }
 
-    void Print_Path()
+    void add_path(Crossroad& stop){
+        path.push_back(stop);
+    }
+
+    Crossroad get_stop(int index) const
     {
+        return path[index];
+    }
+
+    void Print_Path(){
         for(int i = 0; i < path.size(); ++i)
         {
             std::cout << path[i].getValue();

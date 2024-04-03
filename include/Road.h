@@ -29,7 +29,7 @@ public:
 //    char getLabel() const {
 //        return label;
 //    }
-<<<<<<< HEAD
+
 
 //    void setLabel(const char &lbl) {
 //        label = lbl;
@@ -38,7 +38,7 @@ public:
     bool operator==(const Road &other) const {
         return root == other.root && destination == other.destination; //&& label == other.label;
     }
-=======
+
 //
 //    void setLabel(const char &lbl) {
 //        label = lbl;
@@ -47,7 +47,7 @@ public:
 //    bool operator==(const Road &other) const {
 //        return root == other.root && destination == other.destination && label == other.label;
 //    }
->>>>>>> 511008846a3a25bbf7d8ea62d541d442b84889c0
+
 
 };
 

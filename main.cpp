@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <unordered_set>
 #include "include/City.h"
@@ -49,7 +50,7 @@ int main() {
                 stops.push_back(Crossroad(b));
             }
             new_city.add_bus(stops);
-            new_city.Print_Matrix();
+            //new_city.Print_Matrix();
         }
 
         else if(command == "Construct_crossroad"){
@@ -58,6 +59,15 @@ int main() {
 
         else if(command == "common_streets"){
 
+        }
+
+        else if(command == "exit"){
+            break;
+        }
+        else{
+            std::cout << "Unknown command" << std::endl;
+            std::cout << "Exiting...";
+            break;
         }
     }
 

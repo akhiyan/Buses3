@@ -84,19 +84,20 @@ public:
 
     void Add_road(char root, char destination, int distance){
         adj_matrix[root  - 'A'][destination - 'A'] = distance;
-        adj_matrix[destination - 'A'][root - 'A'] = distance;
 
         auto dest_crossroad = getCrossroad(root);
         auto root_crossroad = getCrossroad(destination);
         roads.push_back(Road(distance, &root_crossroad, &dest_crossroad));
     }
 
-    void add_bus(std::vector<Crossroad> stops)
-    {
-        auto b = Bus(stops);
+    void add_bus(std::vector<Crossroad> stops){
+        Bus b = Bus(stops);
        buses.push_back(b);
-       find_closest_dest(allNodes[stops[0].getValue()], b);
-
+       Crossroad first_stop = allNodes[stops[0].getValue()];
+       std::pair<Crossroad,int> closest_dest = find_closest_dest(first_stop, b);
+       std::cout << "Closest stop is " << closest_dest.first.getValue() << " and the distance from " << first_stop.getValue() << " is " << closest_dest.second;
+       std::cout << std::endl;
+       build_path(first_stop, b);
     }
 
     void common_streets(int i, int j)
@@ -106,23 +107,31 @@ public:
         //std::cout << buses[i].get
     }
 
-    void find_closest_dest(Crossroad& start, Bus b)
+    std::pair<Crossroad, int> find_closest_dest(Crossroad& start, Bus& b)
     {
         int min = INT_MAX;
-        Crossroad closest_dest;
+        Crossroad closest_dest = NULL;
         int element;
-        for(int i = 0; i < adj_matrix[start.getValue() - 'A'].size() + 1; ++i){
+        for(int i = 0; i < adj_matrix[start.getValue() - 'A'].size(); ++i){
             element = adj_matrix[start.getValue() - 'A'][i];
-            if(element != 0 && b.path_contains('A' + i) && element < min)
+            if(element != 0 && b.path_contains('A' + i) && element < min && element != INFINITY)
             {
                 closest_dest = allNodes['A' + i];
                 min = element;
             }
 
         }
+            return std::make_pair(closest_dest, min);
+    }
 
-        std::cout << "Closest stop is " << closest_dest.getValue() << " and the distance from " << start.getValue() << " is " << min;
-        std::cout << std::endl;
+    void build_path(Crossroad& current_stop, Bus& b)
+    {
+        b.add_path(current_stop);
+        Crossroad next_stop = find_closest_dest(current_stop,b).first;
+        if(next_stop != NULL)
+        {
+            build_path(next_stop, b);
+        }
     }
 
     void Print_Matrix(){
