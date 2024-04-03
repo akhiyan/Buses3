@@ -17,6 +17,7 @@
 class City{
 private:
     std::unordered_map<char, Crossroad> allNodes;
+    std::vector<char> crossroad_names;
     std::vector<std::vector<int>> adj_matrix;
     std::vector<std::vector<int>> adj_matrix_old;
     std::vector<Road> roads;
@@ -43,6 +44,7 @@ public:
         for(int i = 0; i < crossroads.size(); ++i)
         {
             allNodes[crossroads[i]] = Crossroad(crossroads[i]);
+            crossroad_names.push_back(crossroads[i]);
         }
 
         for(int i = 0; i < N; ++i)
@@ -132,19 +134,20 @@ public:
         {
             build_path(next_stop, b);
         }
+        exit(0);
     }
 
     void Print_Matrix(){
         int i;
 
         std::cout << "  ";
-        for(i = 0; i < adj_matrix.size(); ++i) {
-            std::cout << (char) ('A' + i) << " ";
+        for(i = 0; i < crossroad_names.size(); ++i) {
+            std::cout << crossroad_names[i] << " ";
         }
         std::cout << std::endl;
 
         for(i = 0; i < adj_matrix.size(); ++i){
-            std::cout << (char)('A' + i) << " ";
+            std::cout << crossroad_names[i] << " ";
             for(int j = 0; j < adj_matrix[i].size(); ++j){
                 if(adj_matrix[i][j] == INFINITY){
                     std::cout << "- " ;

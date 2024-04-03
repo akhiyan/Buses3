@@ -34,7 +34,7 @@ int main() {
     for(auto it : crossroads_set){
         crossroads.push_back(it[0]);
     }
-
+    std::sort(crossroads.begin(), crossroads.end());
     City new_city(N, crossroads, city);
 
     while (true){
@@ -50,7 +50,7 @@ int main() {
                 stops.push_back(Crossroad(b));
             }
             new_city.add_bus(stops);
-            //new_city.Print_Matrix();
+            new_city.Print_Matrix();
         }
 
         else if(command == "Construct_crossroad"){
