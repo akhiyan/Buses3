@@ -40,20 +40,29 @@ int main() {
     while (true){
         std::string command;
         std::cin >> command;
+        int k;
         if(command == "add_bus"){
-            int k;
             std:: cin >> k;
             std::vector<Crossroad> stops;
-            for(int i = 0; i < k + 1; ++i){
+            while(k-- >= 0) {
                 char b;
                 std::cin >> b;
                 stops.push_back(Crossroad(b));
             }
-            new_city.add_bus(stops);
-            new_city.Print_Matrix();
+                new_city.add_bus(stops);
         }
 
         else if(command == "Construct_crossroad"){
+            std::cin >> k;
+            int distance;
+            char crossroad;
+            std::vector<std::pair<char,int>> arguments;
+            while(k-- > 0) {
+                std::cin >> crossroad;
+                std::cin >> distance;
+                arguments.push_back(std::make_pair(crossroad,distance));
+            }
+            new_city.Construct_crossroad(arguments);
 
         }
 
@@ -66,9 +75,10 @@ int main() {
         }
         else{
             std::cout << "Unknown command" << std::endl;
-            std::cout << "Exiting...";
-            break;
+            continue;
         }
+
+        new_city.Print_Matrix();
     }
 
     return 0;

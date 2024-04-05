@@ -6,7 +6,7 @@
 #include <vector>
 #include <queue>
 #include <unordered_map>
-#include <unordered_set>
+#include <set>
 #include <utility>
 #include "Road.h"
 #include "Bus.h"
@@ -17,13 +17,13 @@
 class City{
 private:
     std::unordered_map<char, Crossroad> allNodes;
-    std::vector<char> crossroad_names;
+    std::set<char, std::less<char>> crossroad_names;
     std::vector<std::vector<int>> adj_matrix;
     std::vector<std::vector<int>> adj_matrix_old;
     std::vector<Road> roads;
     std::vector<Bus> buses;
 
-    std::vector<std::vector<int>> floydWarshall(std::vector<std::vector<int>>& adj) {
+    void floydWarshall(std::vector<std::vector<int>>& adj) {
         for (int k = 0; k < adj.size(); k++) {
             for (int i = 0; i < adj.size(); i++) {
                 for (int j = 0; j < adj.size(); j++) {
@@ -35,7 +35,6 @@ private:
                 }
             }
         }
-        return adj_matrix;
     }
 
 public:
@@ -44,7 +43,7 @@ public:
         for(int i = 0; i < crossroads.size(); ++i)
         {
             allNodes[crossroads[i]] = Crossroad(crossroads[i]);
-            crossroad_names.push_back(crossroads[i]);
+            crossroad_names.insert(crossroads[i]);
         }
 
         for(int i = 0; i < N; ++i)
@@ -65,19 +64,41 @@ public:
         floydWarshall(adj_matrix);
     }
 
-    void Construct_crossroad(std::vector<std::pair<char,char>> streets){
-        for(int i = 0; i < adj_matrix.size() - 1; ++i)
+    void Construct_crossroad(std::vector<std::pair<char,int>> streets){
+        char name;
+        for(char c = 'A'; c < 'Z'; ++c)
         {
-            adj_matrix[i].push_back(INFINITY);
-        }
-        adj_matrix[adj_matrix.size() - 1].push_back(0);
-        allNodes[adj_matrix.size() - 1 + 'i'];
-        std::cout << "Added crossroad " << adj_matrix.size() - 1 + 'i' << std::endl;
-
-        for(int i = 0; i < streets.size(); ++i){
-            Add_road(streets[i].first, streets[i].second, -1);
+            if(!crossroad_names.contains(c))
+            {
+                name = c;
+                crossroad_names.insert(c);
+                break;
+            }
         }
 
+        Crossroad new_crossroad = Crossroad(name);
+        allNodes[name] = new_crossroad;
+
+        int new_size = crossroad_names.size();
+
+        for(int i = 0; i < adj_matrix.size(); ++i)
+        {
+            adj_matrix[i].resize(new_size);
+            adj_matrix[i][new_size - 1] = INFINITY;
+        }
+
+        adj_matrix.push_back(std::vector<int>(crossroad_names.size()));
+        for(int i = 0; i < adj_matrix[new_size - 1].size() - 1; ++i)
+        {
+            adj_matrix[new_size - 1][i] = INFINITY;
+        }
+        adj_matrix[new_size - 1][new_size - 1] = 0;
+
+        for(int i = 0; i < streets.size(); ++i)
+        {
+            Add_road(streets[i].first, name, streets[i].second);
+        }
+        floydWarshall(adj_matrix);
     }
 
     Crossroad getCrossroad(char& name){
@@ -134,20 +155,22 @@ public:
         {
             build_path(next_stop, b);
         }
-        exit(0);
     }
 
     void Print_Matrix(){
         int i;
 
         std::cout << "  ";
-        for(i = 0; i < crossroad_names.size(); ++i) {
-            std::cout << crossroad_names[i] << " ";
+        for(auto i : crossroad_names) {
+            std::cout << i << " ";
         }
         std::cout << std::endl;
 
+        auto it = crossroad_names.begin();
         for(i = 0; i < adj_matrix.size(); ++i){
-            std::cout << crossroad_names[i] << " ";
+            std::cout << *it << " ";
+            std::advance(it,1);
+
             for(int j = 0; j < adj_matrix[i].size(); ++j){
                 if(adj_matrix[i][j] == INFINITY){
                     std::cout << "- " ;
