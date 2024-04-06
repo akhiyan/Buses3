@@ -13,56 +13,23 @@ private:
     int distance = INT_MAX;
 
 public:
-    Crossroad(const char &val) : value(val) {}
-    Crossroad() {}
+    Crossroad(const char &val);
+
+    Crossroad();
     //Crossroad(const char &other) : value(other.value) {}
 
-    char getValue() const {
-        return value;
-    }
+    char getValue() const;
 
-    int getDistance() const {
-        return distance;
-    }
+    int getDistance() const;
 
-    std::vector<char> getPath()
-    {
-        std::vector<char> result;
-        result.push_back(value);
-        Crossroad * tmp = parent;
-        while (parent != nullptr)
-        {
-            result.push_back(parent->value);
-            parent = parent->parent;
-        }
+    std::vector<char> getPath();
+    void setDistance(int newDistance);
 
-        parent = tmp;
+    void setParent(Crossroad *newParent);
 
-        return result;
-    }
+    bool operator==(const Crossroad &other) const;
 
-    void setDistance(int newDistance) {
-        distance = newDistance;
-    }
-
-    void setParent(Crossroad *newParent) {
-        parent = newParent;
-    }
-
-    bool operator==(const Crossroad &other) const {
-        return value == other.value;
-    }
-
-    void print() const {
-        std::cout << "Crossroad: " << getValue()
-                  << std::endl;
-    }
-
-    struct HashFunction {
-        size_t operator()(const Crossroad &node) const {
-            return std::hash<char>()(node.getValue());
-        }
-    };
+    void print() const;
 };
 
 #endif //BUSES3_CROSSROAD_H
