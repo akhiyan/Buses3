@@ -19,7 +19,7 @@ private:
 public:
     Bus(std::vector<Crossroad> _path);
 
-    ~Bus();
+    int path_count();
 
     bool path_contains(char element);
 

@@ -61,6 +61,14 @@ int main() {
                 std::cin >> distance;
                 arguments.push_back(std::make_pair(crossroad,distance));
             }
+            int m;
+            std::cin >> m;
+            while(m-- > 0){
+                std::cin >> crossroad;
+                std::cin >> distance;
+                arguments.push_back(std::make_pair(crossroad,distance));
+            }
+
             new_city.Construct_crossroad(arguments);
 
         }

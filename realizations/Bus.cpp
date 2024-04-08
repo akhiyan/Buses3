@@ -10,10 +10,12 @@ Bus::Bus(std::vector<Crossroad> _path){
     stops.push_back(_path[i]);
     }
 }
-Bus::~Bus()
+
+int Bus::path_count()
 {
-    //number--;
+    return  path.size();
 }
+
 bool Bus::path_contains(char element){
     for(int i = 0; i < stops.size(); ++i)
     {

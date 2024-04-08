@@ -17,7 +17,7 @@ void City::floydWarshall(std::vector<std::vector<int>>& adj) {
 City::City(int N, std::vector<char> crossroads, std::vector<std::vector<std::string>> _city) : adj_matrix(N) {
     for(int i = 0; i < crossroads.size(); ++i)
     {
-        allNodes[crossroads[i]] = Crossroad(crossroads[i]);
+        allCrossroads[crossroads[i]] = Crossroad(crossroads[i]);
         crossroad_names.insert(crossroads[i]);
     }
 
@@ -39,6 +39,32 @@ City::City(int N, std::vector<char> crossroads, std::vector<std::vector<std::str
     floydWarshall(adj_matrix);
 }
 
+std::vector<std::pair<char,char>> City::getShortestPaths(const char& crossroadvalue, Bus& b){
+    std::vector<std::vector<char>> path_matrix;
+    dijkstra(&allCrossroads[crossroadvalue]);
+    for(auto crossroad : allCrossroads)
+    {
+        if(b.path_contains(crossroad.second.getValue()))
+            path_matrix.push_back(crossroad.second.getPath());
+    }
+
+    std::vector<std::pair<char,char>> result;
+
+    for(int i = 0; i < path_matrix.size(); ++i)
+    {
+        for(int j = 0; j < path_matrix.size() - 1; j+=2)
+        {
+            result.push_back(std::make_pair(path_matrix[i][j], path_matrix[i][j+1]));
+        }
+    }
+
+    return  result;
+}
+
+void City::update_matrix(){
+
+}
+
 void City::Construct_crossroad(std::vector<std::pair<char,int>> streets){
     char name;
     for(char c = 'A'; c < 'Z'; ++c)
@@ -52,7 +78,7 @@ void City::Construct_crossroad(std::vector<std::pair<char,int>> streets){
     }
 
     Crossroad new_crossroad = Crossroad(name);
-    allNodes[name] = new_crossroad;
+    allCrossroads[name] = new_crossroad;
 
     int new_size = crossroad_names.size();
 
@@ -73,22 +99,10 @@ void City::Construct_crossroad(std::vector<std::pair<char,int>> streets){
     {
         Add_road(streets[i].first, name, streets[i].second);
     }
-
-    int j = adj_matrix.size() - 1;
-    for(int k = 0; k < adj_matrix.size(); ++k){
-        for(int i = 0; i < adj_matrix.size(); ++i)
-        {
-            if (adj_matrix[i][k] + adj_matrix[k][j] < adj_matrix[i][j] &&
-                (adj_matrix[i][k] != INFINITY) && (adj_matrix[k][j] != INFINITY)) {
-                adj_matrix[i][j] = adj_matrix[i][k] + adj_matrix[k][j];
-
-            }
-        }
-    }
 }
 
-Crossroad City::getCrossroad(char& name){
-    return allNodes[name];
+Crossroad& City::getCrossroad(const char& name){
+    return allCrossroads[name];
 }
 
 void City::Add_road(char root, char destination, int distance){
@@ -96,13 +110,13 @@ void City::Add_road(char root, char destination, int distance){
 
     auto dest_crossroad = getCrossroad(root);
     auto root_crossroad = getCrossroad(destination);
-    roads.push_back(Road(distance, &root_crossroad, &dest_crossroad,distance));
+    roads.push_back(Road(&root_crossroad, &dest_crossroad,distance));
 }
 
 void City::add_bus(std::vector<Crossroad> stops){
     Bus b = Bus(stops);
     buses.push_back(b);
-    Crossroad first_stop = allNodes[stops[0].getValue()];
+    Crossroad first_stop = allCrossroads[stops[0].getValue()];
     std::pair<Crossroad,int> closest_dest = find_closest_dest(first_stop, b);
     std::cout << "Closest stop is " << closest_dest.first.getValue() << " and the distance from " << first_stop.getValue() << " is " << closest_dest.second;
     std::cout << std::endl;
@@ -111,9 +125,29 @@ void City::add_bus(std::vector<Crossroad> stops){
 
 void City::common_streets(int i, int j)
 {
-    Bus ith_bus = buses[i];
-    Bus jth_bus = buses[j];
-    //std::cout << buses[i].get
+    Bus& ith_bus = buses[i];
+    Bus& jth_bus = buses[j];
+
+    std::vector<std::pair<char,char>> bus_path1 = getShortestPaths(ith_bus.get_stop(0).getValue(), ith_bus);
+    std::vector<std::pair<char,char>> bus_path2 = getShortestPaths(jth_bus.get_stop(0).getValue(), jth_bus);
+    std::vector<std::pair<char,char>> common_dests;
+
+
+    for(int k = 0; k < bus_path1.size(); ++k)
+    {
+        for(int f = 0; f < bus_path2.size(); ++f)
+        {
+            if(bus_path1[i].first == bus_path2[f].first &&
+            bus_path1[i].second == bus_path2[f].second){
+                common_dests.push_back(std::make_pair(bus_path1[i].first, bus_path2[j].second));
+            }
+        }
+    }
+
+
+
+
+
 }
 
 std::pair<Crossroad, int> City::find_closest_dest(Crossroad& start, Bus& b)
@@ -125,7 +159,7 @@ std::pair<Crossroad, int> City::find_closest_dest(Crossroad& start, Bus& b)
         element = adj_matrix[start.getValue() - 'A'][i];
         if(element != 0 && b.path_contains('A' + i) && element < min && element != INFINITY)
         {
-            closest_dest = allNodes['A' + i];
+            closest_dest = allCrossroads['A' + i];
             min = element;
         }
 
@@ -165,5 +199,57 @@ void City::Print_Matrix(){
             std::cout << adj_matrix[i][j] << " ";
         }
         std::cout << std::endl;
+    }
+}
+
+void City::initDijkstra(Crossroad *sourceCrossroad){
+    for (auto crossroad: allCrossroads) {
+        crossroad.second.setDistance(INT_MAX);
+        crossroad.second.setParent(nullptr);
+    }
+    sourceCrossroad->setDistance(0);
+}
+
+void City::dijkstra(Crossroad *startCrossroad) {
+    initDijkstra(startCrossroad);
+    std::unordered_set<Crossroad*> q;
+    for (auto crossroad: allCrossroads) {
+        q.insert(&crossroad.second);
+    }
+
+    while (!q.empty()) {
+        Crossroad* minCrossroad = nullptr;
+        int minDistance = INT_MAX;
+        for (auto crossroad: q) {
+            if (minDistance > crossroad->getDistance()) {
+                minDistance = crossroad->getDistance();
+                minCrossroad = crossroad;
+            }
+        }
+        if (minCrossroad == nullptr) {
+            return;
+        }
+        q.erase(minCrossroad);
+
+        for (auto road: roads) {
+            relax(road);
+        }
+    }
+}
+
+void City::dijkstra(const char &startCrossroadValue) {
+    Crossroad* sourceCrossroad = &getCrossroad(startCrossroadValue);
+    if (sourceCrossroad != nullptr) {
+        dijkstra(sourceCrossroad);
+    }
+}
+
+void City::relax(Road &road) {
+    auto source = road.getSource();
+    auto dest = road.getDestination();
+
+    if (source->getDistance() + road.getLength() < dest->getDistance()) {
+        dest->setDistance(source->getDistance() + road.getLength());
+        dest->setParent(source);
     }
 }
