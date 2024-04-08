@@ -63,7 +63,7 @@ public:
         floydWarshall(adj_matrix);
     }
 
-    void Construct_crossroad(std::vector<std::pair<char,char>> streets){
+    void Construct_crossroad(std::vector<std::pair<char,int>> streets){
         for(int i = 0; i < adj_matrix.size() - 1; ++i)
         {
             adj_matrix[i].push_back(INFINITY);
@@ -118,10 +118,9 @@ public:
                 closest_dest = allNodes['A' + i];
                 min = element;
             }
-
         }
-
-        std::cout << "Closest stop is " << closest_dest.getValue() << " and the distance from " << start.getValue() << " is " << min;
+        b.add_path(start);
+        std::cout << "Closest stop is form " << closest_dest.getValue() << " and the distance from " << start.getValue() << " is " << min;
         std::cout << std::endl;
     }
 

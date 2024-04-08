@@ -36,6 +36,11 @@ public:
         return false;
     }
 
+    void add_path(Crossroad& stop)
+    {
+        path.push_back(stop);
+    }
+
     void Print_Path()
     {
         for(int i = 0; i < path.size(); ++i)
