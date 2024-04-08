@@ -16,7 +16,7 @@ private:
     int length;
 
 public:
-    Road(int& _distance, Crossroad* _root, Crossroad* _destination, int _length);
+    Road(Crossroad* _root, Crossroad* _destination, int& _length);
 
     Crossroad* getSource() const;
 

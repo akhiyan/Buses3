@@ -1,7 +1,6 @@
 #include "../include/Road.h"
 
-Road::Road(int& _distance, Crossroad* _root, Crossroad* _destination, int _length) :
-distance(_distance), root(_root), destination(_destination), length(_length){}
+Road::Road(Crossroad* _root, Crossroad* _destination, int& _length) : root(_root), destination(_destination), length(_length){}
 
 Crossroad* Road::getSource() const {
     return root;
