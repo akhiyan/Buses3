@@ -74,7 +74,13 @@ int main() {
         }
 
         else if(command == "common_streets"){
-
+            int i, j;
+            std::cin >> i >> j;
+            auto commons = new_city.common_streets(i,j);
+            for(auto i : commons)
+            {
+                std::cout << i.getDestination()->getValue() << " " << i.getSource()->getValue() << std::endl;
+            }
         }
 
         else if(command == "exit"){

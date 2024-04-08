@@ -28,7 +28,7 @@ bool Bus::path_contains(char element){
     return false;
 }
 
-void Bus::add_path(Crossroad& stop){
+void Bus::add_path(Crossroad stop){
     path.push_back(stop);
 }
 

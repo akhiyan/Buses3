@@ -21,14 +21,16 @@ private:
     std::set<char, std::less<char>> crossroad_names;
     std::vector<std::vector<int>> adj_matrix;
     std::vector<std::vector<int>> adj_matrix_old;
-    std::vector<Road> roads;
-    std::vector<Bus> buses;
+    std::vector<Road*> roads;
+    std::vector<Bus*> buses;
 
     void floydWarshall(std::vector<std::vector<int>>& adj);
 
 public:
 
     City(int N, std::vector<char> crossroads, std::vector<std::vector<std::string>> _city);
+
+    ~City();
 
     std::vector<std::pair<char,char>> getShortestPaths(const char& crossroadvalue, Bus& b);
 
@@ -42,11 +44,11 @@ public:
 
     void add_bus(std::vector<Crossroad> stops);
 
-    void common_streets(int i, int j);
+    std::vector<Road> common_streets(int i, int j);
 
-    std::pair<Crossroad, int> find_closest_dest(Crossroad& start, Bus& b);
+    std::pair<Crossroad, int> find_closest_dest(Crossroad& start, Bus* b);
 
-    void build_path(Crossroad& current_stop, Bus& b);
+    void build_path(Crossroad& current_stop, Bus* b);
 
     void Print_Matrix();
 
@@ -56,7 +58,7 @@ public:
 
     void dijkstra(const char &startNodeValue);
 
-    void relax(Road &road);
+    void relax(Road* road);
 };
 
 #endif //UNTITLED_CITY_H

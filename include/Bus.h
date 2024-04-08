@@ -23,7 +23,7 @@ public:
 
     bool path_contains(char element);
 
-    void add_path(Crossroad& stop);
+    void add_path(Crossroad stop);
 
     Crossroad get_stop(int index) const;
 
