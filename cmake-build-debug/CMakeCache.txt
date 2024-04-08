@@ -128,11 +128,7 @@ CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/Buses3
 CMAKE_LINKER:FILEPATH=C:/Program Files/JetBrains/CLion 2023.3.4/bin/mingw/bin/ld.exe
 
 //make program
-<<<<<<< HEAD
 CMAKE_MAKE_PROGRAM:FILEPATH=C:/Program Files/JetBrains/CLion 2023.3.4/bin/ninja/win/x64/ninja.exe
-=======
-CMAKE_MAKE_PROGRAM:FILEPATH=E:/JetBrains/CLion 2023.3.4/bin/ninja/win/x64/ninja.exe
->>>>>>> 511008846a3a25bbf7d8ea62d541d442b84889c0
 
 //Flags used by the linker during the creation of modules during
 // all build types.
