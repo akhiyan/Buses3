@@ -7,6 +7,7 @@
 #include <queue>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
 #include <utility>
 #include "Road.h"
 #include "Bus.h"
@@ -29,11 +30,13 @@ public:
 
     City(int N, std::vector<char> crossroads, std::vector<std::vector<std::string>> _city);
 
+    std::vector<std::pair<char,char>> getShortestPaths(const char& crossroadvalue, Bus& b);
+
+    void update_matrix();
+
     void Construct_crossroad(std::vector<std::pair<char,int>> streets);
 
-    void recalculate_paths();
-
-    Crossroad* getCrossroad(const char& name);
+    Crossroad& getCrossroad(const char& name);
 
     void Add_road(char root, char destination, int distance);
 
@@ -47,13 +50,13 @@ public:
 
     void Print_Matrix();
 
-    void initDijkstra(Crossroad *sourceCrossoad);
+    void initDijkstra(Crossroad *sourceNode);
 
-    void dijkstra(Crossroad *startCrossroad);
+    void dijkstra(Crossroad *startNode);
 
-    void dijkstra(const char &startCrossroadValue);
+    void dijkstra(const char &startNodeValue);
 
-    void relax(Road &ROAD);
+    void relax(Road &road);
 };
 
 #endif //UNTITLED_CITY_H

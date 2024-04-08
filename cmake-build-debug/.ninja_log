@@ -1,23 +1,12 @@
 # ninja log v5
-4	1505	7340901758191793	CMakeFiles/untitled.dir/main.cpp.obj	90b78b0b5c318ed6
-1	131	7340909481054714	build.ninja	4b87ad2cb4196d29
-1506	1955	7340901762660985	untitled.exe	45bb696d2bd7a5f5
-1871	2597	7340901403079048	CMakeFiles/untitled.dir/include/Road.cpp.obj	7beb74f35cb3e65
-11	644	7340901749620702	CMakeFiles/untitled.dir/include/Bus.cpp.obj	9f2aaff36dab64d5
-8	1381	7340901756945004	CMakeFiles/untitled.dir/include/City.cpp.obj	6fd6e64322bca833
-2597	3229	7340901409400282	CMakeFiles/untitled.dir/include/Crossroad.cpp.obj	73dc982fde3a2dd
+1	131	7342786706738421	build.ninja	4b87ad2cb4196d29
+10	689	7340910789199169	CMakeFiles/Buses3.dir/realizations/Crossroad.cpp.obj	23bcc9c001b422e8
 0	3341	7340910141620615	CMakeFiles/Buses3.dir/main.cpp.obj	b97be30149b66cc1
 4	3344	7340910141945309	CMakeFiles/Buses3.dir/realizations/Bus.cpp.obj	660a0156fcfae06
+1506	1955	7340901762660985	untitled.exe	45bb696d2bd7a5f5
 7	640	7340910788679168	CMakeFiles/Buses3.dir/realizations/Road.cpp.obj	4d7c44ecbfba9e28
-10	689	7340910789199169	CMakeFiles/Buses3.dir/realizations/Crossroad.cpp.obj	23bcc9c001b422e8
-3	1393	7340910796204417	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
-1394	1859	7340910800851661	Buses3.exe	1fc97fd3d20c6198
-4	1429	7340913385498653	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
-1429	1895	7340913390140078	Buses3.exe	1fc97fd3d20c6198
-4	1388	7340914805792122	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
-1389	1842	7340914810326518	Buses3.exe	1fc97fd3d20c6198
-4	1400	7340917002568399	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
 1403	1857	7340917007128952	Buses3.exe	1fc97fd3d20c6198
+<<<<<<< HEAD
 10	777	7341247342411993	CMakeFiles/Buses3.dir/realizations/Bus.cpp.obj	660a0156fcfae06
 777	1501	7341247349582831	CMakeFiles/Buses3.dir/realizations/Road.cpp.obj	4d7c44ecbfba9e28
 7	1719	7341247351806890	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
@@ -43,3 +32,6 @@
 1502	2012	7341992724687014	Buses3.exe	1fc97fd3d20c6198
 6	1985	7342255369155155	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
 1985	2821	7342255377509118	Buses3.exe	1fc97fd3d20c6198
+=======
+4	1400	7340917002568399	CMakeFiles/Buses3.dir/realizations/City.cpp.obj	fd5054d022d3c99
+>>>>>>> e695d90c1489bfb8f2f0e5d8a1a52a11b0b67120

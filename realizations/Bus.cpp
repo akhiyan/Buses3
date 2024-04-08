@@ -3,14 +3,18 @@
 //
 #include "../include/Bus.h"
 
-Bus::Bus(std::vector<Crossroad> _path, unsigned _number) : number(_number) {
+Bus::Bus(std::vector<Crossroad> _path){
     //number = -1;
     //number++;
     for(int i = 0; i < _path.size(); ++i){
-    stops.push_back(_path[i]);
+        stops.push_back(_path[i]);
     }
 }
-int Bus::get_number() const { return number; }
+
+int Bus::path_count()
+{
+    return  path.size();
+}
 
 bool Bus::path_contains(char element){
     for(int i = 0; i < stops.size(); ++i)
@@ -24,15 +28,11 @@ bool Bus::path_contains(char element){
     return false;
 }
 
-void Bus::reset_path(){
-    path.resize(0);
-}
-
 void Bus::add_path(Crossroad& stop){
     path.push_back(stop);
 }
 
-Crossroad& Bus::get_stop(int index)
+Crossroad Bus::get_stop(int index) const
 {
     return path[index];
 }

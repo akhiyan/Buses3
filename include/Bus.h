@@ -14,23 +14,22 @@ class Bus
 private:
     std::vector<Crossroad> path;
     std::vector<Crossroad> stops;
-    unsigned number;
+    //static int number;
 
 public:
-    Bus(std::vector<Crossroad> _path, unsigned _number);
+    Bus(std::vector<Crossroad> _path);
 
-    int get_number() const;
-
-    void reset_path();
+    int path_count();
 
     bool path_contains(char element);
 
     void add_path(Crossroad& stop);
 
-    Crossroad& get_stop(int index);
+    Crossroad get_stop(int index) const;
 
     void Print_Path();
 };
-;
+
+//int Bus::number = -1;
 
 #endif //UNTITLED_BUS_H
