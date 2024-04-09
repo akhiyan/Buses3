@@ -1,0 +1,9 @@
+4 4
+A B 3 B C 7 B D 2 C A 4 
+add_bus 2 A B C
+Construct_crossroad 1 A 1 1 C 1
+add_bus 2 A B D
+add_bus 2 C D A
+common_streets 0 1
+Construct_crossroad 1 D 1
+common_streets 1 2
