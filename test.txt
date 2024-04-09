@@ -7,3 +7,12 @@ add_bus 2 C D A
 common_streets 0 1
 Construct_crossroad 1 D 1
 common_streets 1 2
+
+11 13
+A I 5 B C 2 C D 3 C F 4 F E 2 E A 3 D G 8 F H 3 G H 4 I H 6 J I 7 H K 6 K J 5
+add_bus 3 B E F I
+add_bus 2 A H J
+Construct_crossroad 2 D 4 H 3 2 F 2 C 6
+add_bus 2 H F D
+common_streets 0 2
+common_streets 1 2

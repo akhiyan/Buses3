@@ -88,8 +88,7 @@ int main() {
             break;
         }
         else{
-            std::cout << "Unknown command" << std::endl;
-            continue;
+            std::cout << "Unknown command. Try again" << std::endl;
         }
 
         new_city.Print_Matrix();
