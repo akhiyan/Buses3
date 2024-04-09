@@ -11,7 +11,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Admin/Desktop/Buses3/cmake-build-debug"
+			"value" : "C:/Users/Admin/Desktop/buses3/cmake-build-debug"
 		},
 		{
 			"name" : "Buses3_IS_TOP_LEVEL",
@@ -35,7 +35,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Admin/Desktop/Buses3"
+			"value" : "C:/Users/Admin/Desktop/buses3"
 		},
 		{
 			"name" : "CMAKE_ADDR2LINE",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/Admin/Desktop/Buses3/cmake-build-debug"
+			"value" : "c:/Users/Admin/Desktop/buses3/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -611,7 +611,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Admin/Desktop/Buses3/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/Admin/Desktop/buses3/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -683,7 +683,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/Admin/Desktop/Buses3"
+			"value" : "C:/Users/Admin/Desktop/buses3"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
