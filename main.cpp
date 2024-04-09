@@ -48,7 +48,7 @@ int main() {
                 std::cin >> b;
                 stops.push_back(Crossroad(b));
             }
-                new_city.add_bus(stops);
+            new_city.add_bus(stops);
         }
 
         else if(command == "Construct_crossroad"){
@@ -69,8 +69,7 @@ int main() {
                 arguments.push_back(std::make_pair(crossroad,distance));
             }
 
-            new_city.Construct_crossroad(arguments);
-
+            new_city.Construct_crossroad(arguments, k, m);
         }
 
         else if(command == "common_streets"){
@@ -88,11 +87,10 @@ int main() {
         }
         else{
             std::cout << "Unknown command" << std::endl;
-            break;
+            continue;
         }
 
         new_city.Print_Matrix();
-        int i = 3;
     }
 
     return 0;
