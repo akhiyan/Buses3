@@ -1,6 +1,6 @@
 #include "../include/Crossroad.h"
 
-Crossroad::Crossroad(const char &val) : value(val) {}
+Crossroad::Crossroad(const char &val) : value(val), visited(false) {}
 Crossroad::Crossroad() {}
 //Crossroad(const char &other) : value(other.value) {}
 
@@ -10,6 +10,18 @@ char Crossroad::getValue() const {
 
 int Crossroad::getDistance() const {
     return distance;
+}
+
+void Crossroad::visit(){
+    visited = true;
+}
+
+void Crossroad::reset_visit() {
+    visited = false;
+}
+
+bool Crossroad::is_visited() const{
+    return  visited;
 }
 
 std::vector<char> Crossroad::getPath()

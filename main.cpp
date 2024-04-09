@@ -91,7 +91,7 @@ int main() {
             continue;
         }
 
-        new_city.Print_Matrix();
+        //new_city.Print_Matrix();
     }
 
     return 0;

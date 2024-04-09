@@ -46,7 +46,7 @@ public:
 
     std::vector<Road> common_streets(int i, int j);
 
-    std::pair<Crossroad, int> find_closest_dest(Crossroad& start, Bus* b);
+    std::pair<Crossroad*, int> find_closest_dest(Crossroad& start, Bus* b);
 
     void build_path(Crossroad& current_stop, Bus* b);
 
