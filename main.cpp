@@ -88,10 +88,11 @@ int main() {
         }
         else{
             std::cout << "Unknown command" << std::endl;
-            continue;
+            break;
         }
 
-        //new_city.Print_Matrix();
+        new_city.Print_Matrix();
+        int i = 3;
     }
 
     return 0;

@@ -32,7 +32,7 @@ public:
 
     ~City();
 
-    std::vector<std::pair<char,char>> getShortestPaths(const char& crossroadvalue, Bus& b);
+    std::set<std::pair<char,char>> getShortestPaths(const char& crossroadvalue, Bus& b);
 
     void update_matrix();
 

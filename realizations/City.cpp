@@ -52,7 +52,7 @@ City::~City()
     }
 }
 
-std::vector<std::pair<char,char>> City::getShortestPaths(const char& crossroadvalue, Bus& b){
+std::set<std::pair<char,char>> City::getShortestPaths(const char& crossroadvalue, Bus& b){
     std::vector<std::vector<char>> path_matrix;
     dijkstra(&allCrossroads[crossroadvalue]);
     for(auto crossroad : allCrossroads)
@@ -61,13 +61,15 @@ std::vector<std::pair<char,char>> City::getShortestPaths(const char& crossroadva
             path_matrix.push_back(crossroad.second.getPath());
     }
 
-    std::vector<std::pair<char,char>> result;
+    std::set<std::pair<char,char>> result;
 
     for(int i = 0; i < path_matrix.size(); ++i)
     {
-        for(int j = 0; j < path_matrix.size() - 1; j+=2)
+        for(int j = 0; j < path_matrix[i].size() - 1; j+=2)
         {
-            result.push_back(std::make_pair(path_matrix[i][j], path_matrix[i][j+1]));
+            if(b.path_contains(path_matrix[i][j]) && b.path_contains(path_matrix[i][j+1]))
+                result.insert(std::make_pair(path_matrix[i][j], path_matrix[i][j + 1]));
+
         }
     }
 
@@ -130,10 +132,10 @@ void City::add_bus(std::vector<Crossroad> stops){
     Bus* b = new Bus(stops);
     buses.push_back(b);
     Crossroad& first_stop = allCrossroads[stops[0].getValue()];
-    std::pair<Crossroad*, int> closest_dest = find_closest_dest(first_stop, b);
     for(auto &i : allCrossroads){
         i.second.reset_visit();
     }
+    std::pair<Crossroad*, int> closest_dest = find_closest_dest(first_stop, b);
     std::cout << "Closest stop is " << closest_dest.first->getValue() << " and the distance from " << first_stop.getValue() << " is " << closest_dest.second;
     std::cout << std::endl;
     build_path(first_stop, b);
@@ -147,18 +149,18 @@ std::vector<Road> City::common_streets(int i, int j)
     Bus* ith_bus = buses[i];
     Bus* jth_bus = buses[j];
 
-    std::vector<std::pair<char,char>> bus_path1 = getShortestPaths(ith_bus->get_stop(0).getValue(), *ith_bus);
-    std::vector<std::pair<char,char>> bus_path2 = getShortestPaths(jth_bus->get_stop(0).getValue(), *jth_bus);
+    std::set<std::pair<char,char>> bus_path1 = getShortestPaths(ith_bus->get_stop(0).getValue(), *ith_bus);
+    std::set<std::pair<char,char>> bus_path2 = getShortestPaths(jth_bus->get_stop(0).getValue(), *jth_bus);
     std::vector<std::pair<char,char>> common_dests;
 
 
-    for(int k = 0; k < bus_path1.size(); ++k)
+    for(auto &k : bus_path1)
     {
-        for(int f = 0; f < bus_path2.size(); ++f)
+        for(auto &f : bus_path2)
         {
-            if(bus_path1[k].first == bus_path2[f].first &&
-               bus_path1[k].second == bus_path2[f].second){
-                common_dests.push_back(std::make_pair(bus_path1[k].first, bus_path2[f].second));
+            if(k.first == f.first &&
+               k.second == f.second){
+                common_dests.push_back(std::make_pair(k.first, f.second));
             }
         }
     }
@@ -168,10 +170,10 @@ std::vector<Road> City::common_streets(int i, int j)
     {
         for(int f = 0; f < roads.size(); ++f)
         {
-            if(roads[i]->getSource()->getValue() == common_dests[k].first &&
-            roads[i]->getDestination()->getValue() == common_dests[k].second)
+            if(roads[f]->getSource()->getValue() == common_dests[k].second &&
+            roads[f]->getDestination()->getValue() == common_dests[k].first)
             {
-                common_roads.push_back(*roads[i]);
+                common_roads.push_back(*roads[f]);
                 break;
             }
         }
@@ -186,6 +188,7 @@ std::pair<Crossroad*, int> City::find_closest_dest(Crossroad& start, Bus* b)
     int min = INT_MAX;
     Crossroad* closest_dest = NULL;
     int element;
+    start.visit();
     for(int i = 0; i < adj_matrix[start.getValue() - 'A'].size(); ++i){
         element = adj_matrix[start.getValue() - 'A'][i];
         if(!allCrossroads['A' + i].is_visited() && element != 0 && b->path_contains('A' + i) && element < min && element != INFINITY)
@@ -193,7 +196,6 @@ std::pair<Crossroad*, int> City::find_closest_dest(Crossroad& start, Bus* b)
             closest_dest = &allCrossroads['A' + i];
             min = element;
         }
-        allCrossroads['A' + i].visit();
 
     }
 
@@ -204,8 +206,7 @@ void City::build_path(Crossroad& current_stop, Bus* b)
 {
     b->add_path(current_stop);
     Crossroad* next_stop = find_closest_dest(current_stop, b).first;
-    if(next_stop != NULL)
-    {
+    if(next_stop != NULL){
         build_path(*next_stop, b);
     }
 }
