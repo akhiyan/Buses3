@@ -132,8 +132,8 @@ void City::Construct_crossroad(std::vector<std::pair<char,int>> streets, int k, 
         std::cout << "Bus N " << i << "-";
         buses[i]->Print_Path();
         std::cout << " Duration - " << adj_matrix[buses[i]->get_stop(0).getValue() - 'A'][buses[i]->get_stop(buses[i]->path_count() - 1).getValue() - 'A'];
+        std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
 Crossroad& City::getCrossroad(const char& name){
@@ -233,12 +233,6 @@ void City::build_path(Crossroad& current_stop, Bus* b)
 
 void City::Print_Matrix(){
     int i;
-
-    std::cout << "  ";
-    for(auto i : crossroad_names) {
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
 
     auto it = crossroad_names.begin();
     for(i = 0; i < adj_matrix.size(); ++i){
