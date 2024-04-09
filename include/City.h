@@ -34,9 +34,9 @@ public:
 
     std::vector<std::pair<char,char>> getShortestPaths(const char& crossroadvalue, Bus& b);
 
-    void update_matrix();
+    void update_matrix(std::vector<std::vector<int>>& adj);
 
-    void Construct_crossroad(std::vector<std::pair<char,int>> streets);
+    void Construct_crossroad(std::vector<std::pair<char,int>> streets, int k, int m);
 
     Crossroad& getCrossroad(const char& name);
 

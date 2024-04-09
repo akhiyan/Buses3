@@ -74,11 +74,18 @@ std::vector<std::pair<char,char>> City::getShortestPaths(const char& crossroadva
     return  result;
 }
 
-void City::update_matrix(){
-
+void City::update_matrix(std::vector<std::vector<int>>& adj) {
+    for (int i = 0; i < adj.size(); i++) {
+        for (int j = 0; j < adj.size(); j++) {
+            if (adj[i][adj.size()-1] + adj[adj.size()-1][j] < adj[i][j] &&
+                (adj[i][adj.size()-1] != INFINITY) && (adj[adj.size()-1][j] != INFINITY)) {
+                adj[i][j] = adj[i][adj.size()-1] + adj[adj.size()-1][j];
+            }
+        }
+    }
 }
 
-void City::Construct_crossroad(std::vector<std::pair<char,int>> streets){
+void City::Construct_crossroad(std::vector<std::pair<char,int>> streets, int k, int m){
     char name;
     for(char c = 'A'; c < 'Z'; ++c)
     {
@@ -112,6 +119,8 @@ void City::Construct_crossroad(std::vector<std::pair<char,int>> streets){
     {
         Add_road(streets[i].first, name, streets[i].second);
     }
+
+    update_matrix(adj_matrix);
 }
 
 Crossroad& City::getCrossroad(const char& name){

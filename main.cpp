@@ -69,8 +69,7 @@ int main() {
                 arguments.push_back(std::make_pair(crossroad,distance));
             }
 
-            new_city.Construct_crossroad(arguments);
-
+            new_city.Construct_crossroad(arguments, k, m);
         }
 
         else if(command == "common_streets"){
@@ -91,7 +90,7 @@ int main() {
             continue;
         }
 
-        //new_city.Print_Matrix();
+        new_city.Print_Matrix();
     }
 
     return 0;
