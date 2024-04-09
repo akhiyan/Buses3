@@ -11,6 +11,7 @@ private:
     Crossroad* parent = nullptr;
     Crossroad* destination = nullptr;
     int distance = INT_MAX;
+    bool visited;
 
 public:
     Crossroad(const char &val);
@@ -21,6 +22,12 @@ public:
     char getValue() const;
 
     int getDistance() const;
+
+    void visit();
+
+    void reset_visit();
+
+    bool is_visited() const;
 
     std::vector<char> getPath();
     void setDistance(int newDistance);
