@@ -40,6 +40,6 @@ Crossroad Bus::get_stop(int index) const
 void Bus::Print_Path(){
     for(int i = 0; i < path.size(); ++i)
     {
-        std::cout << path[i].getValue();
+        std::cout << path[i].getValue() << " ";
     }
 }

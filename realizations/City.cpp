@@ -117,12 +117,23 @@ void City::Construct_crossroad(std::vector<std::pair<char,int>> streets, int k, 
     }
     adj_matrix[new_size - 1][new_size - 1] = 0;
 
-    for(int i = 0; i < streets.size(); ++i)
+    for(int i = 0; i < k; ++i)
     {
         Add_road(streets[i].first, name, streets[i].second);
     }
 
-    update_matrix(adj_matrix);
+    for(int i = 0; i < m; ++i)
+    {
+        Add_road(name, streets[k + i].first, streets[k + i].second);
+    }
+
+    floydWarshall(adj_matrix);
+    for(int i = 0; i < buses.size(); ++i){
+        std::cout << "Bus N " << i << "-";
+        buses[i]->Print_Path();
+        std::cout << " Duration - " << adj_matrix[buses[i]->get_stop(0).getValue() - 'A'][buses[i]->get_stop(buses[i]->path_count() - 1).getValue() - 'A'];
+    }
+    std::cout << std::endl;
 }
 
 Crossroad& City::getCrossroad(const char& name){

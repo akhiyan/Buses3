@@ -56,14 +56,16 @@ int main() {
             int distance;
             char crossroad;
             std::vector<std::pair<char,int>> arguments;
-            while(k-- > 0) {
+            int tmp = k;
+            while(tmp-- > 0) {
                 std::cin >> crossroad;
                 std::cin >> distance;
                 arguments.push_back(std::make_pair(crossroad,distance));
             }
             int m;
             std::cin >> m;
-            while(m-- > 0){
+            tmp = m;
+            while(tmp-- > 0){
                 std::cin >> crossroad;
                 std::cin >> distance;
                 arguments.push_back(std::make_pair(crossroad,distance));
