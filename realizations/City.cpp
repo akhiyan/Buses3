@@ -131,10 +131,15 @@ void City::add_bus(std::vector<Crossroad> stops){
     buses.push_back(b);
     Crossroad& first_stop = allCrossroads[stops[0].getValue()];
     std::pair<Crossroad*, int> closest_dest = find_closest_dest(first_stop, b);
+    for(auto &i : allCrossroads){
+        i.second.reset_visit();
+    }
     std::cout << "Closest stop is " << closest_dest.first->getValue() << " and the distance from " << first_stop.getValue() << " is " << closest_dest.second;
     std::cout << std::endl;
     build_path(first_stop, b);
-
+    for(auto &i : allCrossroads){
+        i.second.reset_visit();
+    }
 }
 
 std::vector<Road> City::common_streets(int i, int j)
@@ -192,9 +197,6 @@ std::pair<Crossroad*, int> City::find_closest_dest(Crossroad& start, Bus* b)
 
     }
 
-    for(auto i : allCrossroads){
-        i.second.reset_visit();
-    }
     return std::make_pair(closest_dest, min);
 }
 
