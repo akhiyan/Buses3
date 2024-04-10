@@ -79,9 +79,11 @@ std::set<std::pair<char,char>> City::getShortestPaths(const char& crossroadvalue
 void City::update_matrix(std::vector<std::vector<int>>& adj) {
     for (int i = 0; i < adj.size(); i++) {
         for (int j = 0; j < adj.size(); j++) {
-            if (adj[i][adj.size()-1] + adj[adj.size()-1][j] < adj[i][j] &&
-                (adj[i][adj.size()-1] != INFINITY) && (adj[adj.size()-1][j] != INFINITY)) {
+            if ((adj[i][adj.size()-1] == INFINITY) || (adj[adj.size()-1][j] == INFINITY)) {
+                continue;
+            } else if (adj[i][adj.size()-1] + adj[adj.size()-1][j] < adj[i][j]){
                 adj[i][j] = adj[i][adj.size()-1] + adj[adj.size()-1][j];
+
             }
         }
     }
@@ -128,6 +130,7 @@ void City::Construct_crossroad(std::vector<std::pair<char,int>> streets, int k, 
     }
 
     floydWarshall(adj_matrix);
+    //update_matrix(adj_matrix);
     for(int i = 0; i < buses.size(); ++i){
         std::cout << "Bus N " << i << "-";
         buses[i]->Print_Path();
